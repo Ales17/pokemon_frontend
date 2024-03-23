@@ -1,49 +1,59 @@
 "use client";
+import instance from "@/app/axiosConfig";
+import { FormEvent, useState } from "react";
+import { setCookie } from "cookies-next";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import instance from "../../config/axiosConfig";
-export default function Login() {
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+export default function Page() {
+  const [inputs, setInputs] = useState({ username: "", password: "" });
 
-  const router = useRouter();
-  const handleLoginFormSubmit = (e: React.FormEvent) => {
+  const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     instance
-      .post("auth/login", {
-        username: username,
-        password: password,
+      .post("/auth/login", {
+        username: inputs.username,
+        password: inputs.password,
       })
       .then(function (response) {
-        console.log("Logged in");
-        localStorage.setItem("usr", response.data.accessToken);
-        router.push("/");
+        console.log(response);
+        if (response.status == 200) {
+          setCookie("pika", response.data.accessToken);
+          alert("Logged in sucessfully");
+        }
       })
       .catch(function (error) {
         console.log(error);
+
+        alert("Přihlášení se nepovedlo.");
       });
   };
 
   return (
-    <>
-      <h1>Login</h1>
-
-      <form action="" onSubmit={(e) => handleLoginFormSubmit(e)}>
+    <div>
+      <form
+        onSubmit={(e: FormEvent) => {
+          handleLogin(e);
+        }}
+      >
+        <label htmlFor="username">Jméno:</label>
         <input
           type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        ></input>{" "}
-        <br />
+          onChange={(e: any) =>
+            setInputs({ ...inputs, username: e.target.value })
+          }
+          name="username"
+          value={inputs.username}
+        />
+        <label htmlFor="password">Heslo:</label>
         <input
           type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        ></input>
-        <br />
+          onChange={(e: any) =>
+            setInputs({ ...inputs, password: e.target.value })
+          }
+          name="password"
+          value={inputs.password}
+        />
         <input type="submit" value="Přihlásit se" />
       </form>
-    </>
+    </div>
   );
 }
