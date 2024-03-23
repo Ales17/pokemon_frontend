@@ -8,8 +8,8 @@ export default async function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   const links = [
     { key: 1, href: "/", name: "Domů" },
-    { key: 2, href: "/pokemon", name: "Seznam" },
-    { key: 3, href: "/pokemon/create", name: "Nový záznam" },
+    // { key: 2, href: "/pokemon", name: "Seznam" },
+    { key: 2, href: "/pokemon/create", name: "Nový záznam" },
   ];
   const cookie = cookies().get("pika");
 

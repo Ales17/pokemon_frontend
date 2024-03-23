@@ -1,15 +1,15 @@
 "use client";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
-import { instance as axios } from "@/config/axiosConfig";
+import instance from "@/app/axiosConfig";
 import PokemonForm from "@/app/components/PokemonForm";
-const Page = () => {
+export default function Page() {
   const { slug } = useParams();
 
   const [pokemon, setPokemon] = useState({ id: "", name: "", type: "" });
 
   useEffect(() => {
-    axios
+    instance
       .get(`pokemon/${slug}`)
       .then(function (response) {
         console.log(response.data);
@@ -25,6 +25,4 @@ const Page = () => {
       <PokemonForm pokemonToUpdate={pokemon}></PokemonForm>
     </div>
   );
-};
-
-export default Page;
+}
