@@ -1,39 +1,35 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import instance from "./axiosConfig";
-import Link from "next/link";
+import { MyLink } from "./components/MyLink";
 import { PokemonProps } from "@/types";
 
-export default function Home() {
+export default function Page() {
   const [pokemons, setPokemons] = useState<PokemonProps[] | null>();
 
+  // empty argument - only on first render
   useEffect(() => {
     loadDataFromApi();
-  }, [pokemons]);
+  }, []);
 
   const loadDataFromApi = () => {
     instance
       .get("pokemon")
       .then((response) => {
-        if (response.status !== 200) {
-          alert("Nepodařilo se načíst Pokémony");
-        } else {
-          setPokemons(response.data.content);
-        }
+        setPokemons(response.data.content);
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
   const handlePokemonDelete = (pokemonId: Number) => {
+    console.log("Handle P delete");
     instance
       .delete(`pokemon/${pokemonId}/delete`)
       .then((response) => {
-        loadDataFromApi();
-        if (response.status == 200) {
-          alert("Pokémon byl vymazán úspěšně.");
-        }
+        alert("Pokémon byl vymazán úspěšně.");
+        setPokemons(pokemons?.filter((e) => e.id !== pokemonId));
       })
       .catch((error) => console.log(error));
   };
@@ -44,10 +40,10 @@ export default function Home() {
         <td>{pokemon.name}</td>
         <td>{pokemon.type}</td>
         <td>
-          <Link href={`/pokemon/${pokemon.id}`}>Detail</Link>
+          <MyLink href={`/pokemon/${pokemon.id}`} name={"Detail"} />
         </td>
         <td>
-          <Link href={`/pokemon/${pokemon.id}/edit`}>Upravit</Link>
+          <MyLink href={`/pokemon/${pokemon.id}/edit`} name={"Upravit"} />
         </td>
         <td>
           <button onClick={() => handlePokemonDelete(pokemon.id)}>
