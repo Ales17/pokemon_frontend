@@ -9,12 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth-kit/next": "^3.1.2",
     "axios": "^1.6.7",
+    "cookies-next": "^4.1.1",
+    "ghostlexly-auth": "^1.0.5",
+    "js-cookie": "^3.0.5",
     "next": "14.1.1",
+    "next-auth": "^4.24.7",
     "react": "^18",
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
