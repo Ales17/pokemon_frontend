@@ -1,18 +1,10 @@
 import { useEffect, useState, FormEvent } from "react";
-import { instance as axios } from "@/config/axiosConfig";
-export interface PokemonProps {
-  id: string;
-  name: string;
-  type: string;
-}
-
-interface PokemonFormProps {
-  pokemonToUpdate?: PokemonProps;
-}
-
+import instance from "@/app/axiosConfig";
+import { PokemonProps, PokemonFormProps } from "@/types";
+import { useRouter } from "next/navigation";
 const PokemonForm = ({ pokemonToUpdate }: PokemonFormProps) => {
   const [pokemon, setPokemon] = useState({ id: "", name: "", type: "" });
-
+  const router = useRouter();
   useEffect(() => {
     if (pokemonToUpdate) setPokemon(pokemonToUpdate);
   }, [pokemonToUpdate]);
@@ -21,22 +13,28 @@ const PokemonForm = ({ pokemonToUpdate }: PokemonFormProps) => {
     e.preventDefault();
     console.log(e);
     if (pokemonToUpdate) {
-      axios
+      instance
         .put(`pokemon/${pokemon.id}/update`, {
           name: pokemon.name,
           type: pokemon.type,
         })
         .then((response) => {
           console.log(response);
+          if (response.status == 200) {
+            router.push("/pokemon/" + response.data.id);
+          }
         })
         .catch((error) => {
           console.log(error);
         });
     } else {
-      axios
+      instance
         .post(`pokemon/create`, pokemon)
         .then((response) => {
           console.log(response);
+          if (response.status == 201) {
+            router.push("/pokemon/" + response.data.id);
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -69,11 +67,7 @@ const PokemonForm = ({ pokemonToUpdate }: PokemonFormProps) => {
           }
           value={pokemon.type}
         />
-        <input
-          type="submit"
-          value="Uložit"
-          className="bg-cyan-950 text-white p-3 rounded-xl cursor-pointer "
-        />
+        <input type="submit" value="Uložit" className="" />
       </form>
     </>
   );
