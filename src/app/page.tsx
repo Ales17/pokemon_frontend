@@ -1,42 +1,26 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import instance from "../config/axiosConfig";
-import { NextPage } from "next";
-import { useRouter } from "next/navigation";
+import instance from "./axiosConfig";
 import Link from "next/link";
-import Router from "next/router";
+import { PokemonProps } from "@/types";
 
 export default function Home() {
-  interface PokemonProps {
-    id: any;
-    name: string;
-    type: string;
-  }
-  const router = useRouter();
-  const [jwt, setJwt] = useState<string | null>();
-  useEffect(() => {
-    if (!localStorage.getItem("usr")) {
-      router.push("/login");
-    } else {
-      setJwt(localStorage.getItem("usr"));
-    }
-  }, []);
-
   const [pokemons, setPokemons] = useState<PokemonProps[] | null>();
 
   useEffect(() => {
     loadDataFromApi();
-  }, []);
+  }, [pokemons]);
 
   const loadDataFromApi = () => {
     instance
-      .get("pokemon", {
-        //headers: { Authorization: `Bearer ${jwt}` },
-        params: { pageSize: 500 },
-      })
+      .get("pokemon")
       .then((response) => {
-        setPokemons(response.data.content);
+        if (response.status !== 200) {
+          alert("Nepodařilo se načíst Pokémony");
+        } else {
+          setPokemons(response.data.content);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -46,11 +30,10 @@ export default function Home() {
     instance
       .delete(`pokemon/${pokemonId}/delete`)
       .then((response) => {
-        console.log(response.status);
-
         loadDataFromApi();
-
-        //window.location.reload();
+        if (response.status == 200) {
+          alert("Pokémon byl vymazán úspěšně.");
+        }
       })
       .catch((error) => console.log(error));
   };
@@ -97,6 +80,6 @@ export default function Home() {
     <>
       <h1>Domů</h1>
       {pokemons && <PokemonTable pokemons={pokemons} />}
-     </>
+    </>
   );
 }
