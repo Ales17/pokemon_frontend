@@ -1,50 +1,24 @@
 "use client";
 import { useParams } from "next/navigation";
-import instance from "@/config/axiosConfig";
+import instance from "@/app/axiosConfig";
 import { useEffect, useState } from "react";
-import { get } from "http";
-const Pokemon = () => {
-  let [pokemon, setPokemon] = useState({ id: 0, name: "", type: "" });
+import { ReviewProps } from "@/types";
+const defaultPokemon = { id: 0, name: "", type: "" };
+
+export default function Page() {
+  let [pokemon, setPokemon] = useState(defaultPokemon);
   let [reviews, setReviews] = useState<ReviewProps[]>();
   const { slug } = useParams();
 
-  interface ReviewProps {
-    id: Number;
-    title: string;
-    content: string;
-    stars: any;
-  }
-
-  interface PokemonProps {
-    id: Number;
-    name: string;
-    type: string;
-  }
-
   useEffect(() => {
     instance
-      .get(`pokemon/${slug}`, {
-        //headers: { Authorization: `Bearer ${jwt}` },
-      })
+      .get(`pokemon/${slug}`, {})
       .then(function (response) {
-        console.log(response.data);
-
-        setPokemon(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }, []);
-
-  useEffect(() => {
-    instance
-      .get(`pokemon/${slug}/reviews`, {
-        //headers: { Authorization: `Bearer ${jwt}` },
-      })
-      .then((response) => {
-        console.log(response.data);
-
-        setReviews(response.data);
+        if (response.status != 200) {
+          alert("Chyba při načítání Pokémonů");
+        } else {
+          setPokemon(response.data);
+        }
       })
       .catch(function (error) {
         console.log(error);
@@ -96,12 +70,10 @@ const Pokemon = () => {
   };
 
   return (
-    <>
+    <> <h2>DETAIL POKÉMONA</h2>
       {pokemon && <p>{pokemon.name}</p>}
       <p>{pokemon.type}</p>
       {reviews && reviews.map((e) => <Review key={e.id} review={e} />)}
     </>
   );
-};
-
-export default Pokemon;
+}
