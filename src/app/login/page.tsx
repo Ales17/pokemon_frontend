@@ -1,5 +1,5 @@
 "use client";
-import instance from "@/app/axiosConfig";
+import instance from "@/config/axios";
 import { FormEvent, useState } from "react";
 import { setCookie } from "cookies-next";
 

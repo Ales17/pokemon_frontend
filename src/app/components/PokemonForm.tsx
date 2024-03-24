@@ -1,5 +1,5 @@
 import { useEffect, useState, FormEvent } from "react";
-import instance from "@/app/axiosConfig";
+import instance from "@/config/axios";
 import { PokemonProps, PokemonFormProps } from "@/types";
 import { useRouter } from "next/navigation";
 const PokemonForm = ({ pokemonToUpdate }: PokemonFormProps) => {

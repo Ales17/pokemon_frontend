@@ -1,6 +1,6 @@
 "use client";
 import { useParams } from "next/navigation";
-import instance from "@/app/axiosConfig";
+import instance from "@/config/axios";
 import { useEffect, useState } from "react";
 import { ReviewProps } from "@/types";
 const defaultPokemon = { id: 0, name: "", type: "" };
@@ -70,7 +70,9 @@ export default function Page() {
   };
 
   return (
-    <> <h2>DETAIL POKÉMONA</h2>
+    <>
+      {" "}
+      <h2>DETAIL POKÉMONA</h2>
       {pokemon && <p>{pokemon.name}</p>}
       <p>{pokemon.type}</p>
       {reviews && reviews.map((e) => <Review key={e.id} review={e} />)}
