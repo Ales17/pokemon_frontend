@@ -41,33 +41,54 @@ const PokemonForm = ({ pokemonToUpdate }: PokemonFormProps) => {
         });
     }
   };
+  const inputClass =
+  "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline";
+
+  const labelClass = "block text-gray-700 text-sm font-bold mb-2";
 
   return (
     <>
       <form onSubmit={(e) => handleSubmit(e)}>
-        <input
-          className="border-solid border-2 p-3"
-          type="text"
-          onChange={(e) =>
-            setPokemon({
-              ...pokemon,
-              name: e.target.value,
-            })
-          }
-          value={pokemon.name}
-        />
-        <input
-          className="border-solid border-2 p-3"
-          type="text"
-          onChange={(e) =>
-            setPokemon({
-              ...pokemon,
-              type: e.target.value,
-            })
-          }
-          value={pokemon.type}
-        />
-        <input type="submit" value="Uložit" className="" />
+        <div className="mb-4">
+          <label className={labelClass} htmlFor="name">
+            Jméno
+          </label>
+          <input
+            name="name"
+            className={inputClass}
+            type="text"
+            onChange={(e) =>
+              setPokemon({
+                ...pokemon,
+                name: e.target.value,
+              })
+            }
+            value={pokemon.name}
+          />
+        </div>
+        <div className="mb-6">
+          <label className={labelClass} htmlFor="name">
+            Druh
+          </label>
+          <input
+            className={inputClass}
+            type="text"
+            onChange={(e) =>
+              setPokemon({
+                ...pokemon,
+                type: e.target.value,
+              })
+            }
+            value={pokemon.type}
+          />
+        </div>
+        <div className="flex">
+          <input
+            type="submit"
+            value="Uložit"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          />
+        </div>
       </form>
     </>
   );
