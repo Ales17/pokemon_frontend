@@ -1,3 +1,5 @@
+import { Url } from "next/dist/shared/lib/router/router";
+
 export interface PokemonProps {
   id: any;
   name: string;
@@ -11,7 +13,7 @@ export interface UserData {
 }
 
 export interface LinkProps {
-  href: string;
+  href: Url;
   name: string;
 }
 
