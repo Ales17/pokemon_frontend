@@ -1,6 +1,6 @@
 "use client"
 import PokemonForm from "@/app/components/PokemonForm";
-const Create = () => {
+const Page = () => {
   return (
     <>
       <PokemonForm />
@@ -8,4 +8,4 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default Page;

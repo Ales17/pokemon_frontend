@@ -27,9 +27,7 @@ export default function Page() {
 
   const getReviews = () => {
     instance
-      .get(`pokemon/${slug}/reviews`, {
-        //headers: { Authorization: `Bearer ${jwt}` },
-      })
+      .get(`pokemon/${slug}/reviews`)
       .then((response) => {
         console.log(response.data);
 
@@ -39,12 +37,6 @@ export default function Page() {
         console.log(error);
       });
   };
-
-  useEffect(() => {
-    console.log(pokemon);
-  }, [pokemon]);
-
-  useEffect(() => console.log(reviews), []);
 
   const handleReviewDelete = (reviewId: Number) => {
     instance
@@ -58,7 +50,7 @@ export default function Page() {
       });
   };
 
-  const Review = ({ review }: { review: ReviewProps }) => {
+  const PokemonReview = ({ review }: { review: ReviewProps }) => {
     return (
       <div>
         <h2>{review.title}</h2>
@@ -71,11 +63,10 @@ export default function Page() {
 
   return (
     <>
-      {" "}
       <h2>DETAIL POKÉMONA</h2>
       {pokemon && <p>{pokemon.name}</p>}
       <p>{pokemon.type}</p>
-      {reviews && reviews.map((e) => <Review key={e.id} review={e} />)}
+      {reviews && reviews.map((e, index) => <PokemonReview key={index} review={e} />)}
     </>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import instance from "../config/axios";
-import { MyLink } from "./components/MyLink";
+import instance from "../../config/axios";
+import { MyLink } from "../components/MyLink";
 import { PokemonProps } from "@/types";
 
 export default function Page() {
@@ -34,48 +34,49 @@ export default function Page() {
       .catch((error) => console.log(error));
   };
 
-  function PokemonRow({ pokemon }: { pokemon: PokemonProps }) {
+  function PokemonRow({
+    pokemon,
+    className,
+  }: {
+    pokemon: PokemonProps;
+    className: string;
+  }) {
     return (
       <tr>
-        <td>{pokemon.name}</td>
-        <td>{pokemon.type}</td>
-        <td>
-          <MyLink href={`/pokemon/${pokemon.id}`} name={"Detail"} />
-        </td>
-        <td>
-          <MyLink href={`/pokemon/${pokemon.id}/edit`} name={"Upravit"} />
-        </td>
-        <td>
-          <button onClick={() => handlePokemonDelete(pokemon.id)}>
-            Vymazat
-          </button>
+        <td className={className}>{pokemon.name}</td>
+        <td className={className}>{pokemon.type}</td>
+        <td className={className + " flex"}>
+          <div className="flex gap-2">
+            <MyLink href={`/pokemon/${pokemon.id}`} name={"Detail"} />
+            <MyLink href={`/pokemon/${pokemon.id}/edit`} name={"Upravit"} />
+            <button onClick={() => handlePokemonDelete(pokemon.id)}>
+              Vymazat
+            </button>
+          </div>
         </td>
       </tr>
     );
   }
 
   function PokemonTable({ pokemons }: { pokemons: PokemonProps[] }) {
+    const cellClassName = "p-2 border border border-slate-400";
     return (
-      <table>
+      <table className=" border-collapse table-auto border border-slate-400">
         <thead>
           <tr>
-            <th>Jméno</th>
-            <th>Druh</th>
+            <th className={cellClassName}>Jméno</th>
+            <th className={cellClassName}>Druh</th>
+            <th className={cellClassName}>Operace</th>
           </tr>
         </thead>
         <tbody>
           {pokemons.map((e) => (
-            <PokemonRow key={e.id} pokemon={e} />
+            <PokemonRow className={cellClassName} key={e.id} pokemon={e} />
           ))}
         </tbody>
       </table>
     );
   }
 
-  return (
-    <>
-      <h1>Domů</h1>
-      {pokemons && <PokemonTable pokemons={pokemons} />}
-    </>
-  );
+  return <>{pokemons && <PokemonTable pokemons={pokemons} />}</>;
 }
