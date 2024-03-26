@@ -3,12 +3,12 @@ import { LinkProps } from "@/types";
 
 interface NavigationProps {
   links: LinkProps[];
-  className: string;
+  className?: string;
 }
 export const Navigation = ({ links, className }: NavigationProps) => {
   return (
     <nav className={className}>
-      <ul className="flex flex-col gap-2">
+      <ul className="flex flex-col gap-2 md:flex-row">
         {links.map((e, index) => {
           return <NavLink key={index} href={e.href} name={e.name} />;
         })}
@@ -19,8 +19,12 @@ export const Navigation = ({ links, className }: NavigationProps) => {
 
 const NavLink = ({ href, name }: LinkProps) => {
   return (
-    <li className="">
-      <Link className="p-2 block border-solid border-2 rounded" href={href}>
+    <li>
+      <Link
+        className="block md:flex bg-blue-500 hover:bg-blue-700 
+        text-white font-bold py-2 px-4 rounded"
+        href={href}
+      >
         {name}
       </Link>
     </li>
