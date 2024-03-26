@@ -1,6 +1,6 @@
 import { useEffect, useState, FormEvent } from "react";
 import instance from "@/config/axios";
-import { PokemonProps, PokemonFormProps } from "@/types";
+import { PokemonFormProps } from "@/types";
 import { useRouter } from "next/navigation";
 const PokemonForm = ({ pokemonToUpdate }: PokemonFormProps) => {
   const [pokemon, setPokemon] = useState({ id: "", name: "", type: "" });
@@ -20,7 +20,7 @@ const PokemonForm = ({ pokemonToUpdate }: PokemonFormProps) => {
         })
         .then((response) => {
           console.log(response);
-          if (response.status == 200) {
+          if (response.status === 200) {
             router.push("/pokemon/" + response.data.id);
           }
         })
@@ -32,7 +32,7 @@ const PokemonForm = ({ pokemonToUpdate }: PokemonFormProps) => {
         .post(`pokemon/create`, pokemon)
         .then((response) => {
           console.log(response);
-          if (response.status == 201) {
+          if (response.status === 201) {
             router.push("/pokemon/" + response.data.id);
           }
         })
@@ -42,7 +42,7 @@ const PokemonForm = ({ pokemonToUpdate }: PokemonFormProps) => {
     }
   };
   const inputClass =
-  "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline";
+    "border-0 border-b border-blue-500 w-full py-2 px-3 text-gray-700";
 
   const labelClass = "block text-gray-700 text-sm font-bold mb-2";
 
@@ -86,7 +86,7 @@ const PokemonForm = ({ pokemonToUpdate }: PokemonFormProps) => {
           <input
             type="submit"
             value="Uložit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           />
         </div>
       </form>
