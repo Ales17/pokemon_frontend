@@ -2,7 +2,8 @@
 import { useParams } from "next/navigation";
 import instance from "@/config/axios";
 import { useEffect, useState } from "react";
-import { ReviewProps } from "@/types";
+import { ReviewProps, PokemonProps } from "@/types";
+import Link from "next/link";
 const defaultPokemon = { id: 0, name: "", type: "" };
 
 export default function Page() {
@@ -61,12 +62,40 @@ export default function Page() {
     );
   };
 
+  const Pokemon = ({ pokemon }: { pokemon: PokemonProps }) => {
+    return (
+      <div className="flex flex-col gap-2 md:flex-row md:justify-around">
+        <div className="w-2/3 flex flex-col gap-8">
+          <div>
+            <h2 className="text-2xl ">{pokemon.name}</h2>
+            {pokemon.type}
+          </div>
+          <div>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia
+            architecto nisi qui. Exercitationem cupiditate ducimus dicta vitae.{" "}
+          </div>
+          <div>
+            <Link href={"/pokemon/" + slug + "/edit"}>
+              <button className="flex bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Upravit
+              </button>
+            </Link>
+          </div>
+        </div>
+        <img
+          className="rounded w-1/3"
+          src="https://picsum.photos/300"
+          alt={pokemon.name}
+        />
+      </div>
+    );
+  };
+
   return (
     <>
-      <h2>DETAIL POKÉMONA</h2>
-      {pokemon && <p>{pokemon.name}</p>}
-      <p>{pokemon.type}</p>
-      {reviews && reviews.map((e, index) => <PokemonReview key={index} review={e} />)}
+      {pokemon && <Pokemon pokemon={pokemon} />}
+      {reviews &&
+        reviews.map((e, index) => <PokemonReview key={index} review={e} />)}
     </>
   );
 }
