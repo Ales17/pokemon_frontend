@@ -2,13 +2,13 @@ import Link from "next/link";
 import { LinkProps } from "@/types";
 
 interface NavigationProps {
-  links: LinkProps[];
+  items: LinkProps[];
   className?: string;
 }
-export const Navigation = ({ links, className }: NavigationProps) => {
+export const Navigation = ({ items: links, className }: NavigationProps) => {
   return (
     <nav className={className}>
-      <ul className="flex flex-col gap-2 md:flex-row">
+      <ul className="flex flex-col gap-2 text-center md:flex-row">
         {links.map((e, index) => {
           return <NavLink key={index} href={e.href} name={e.name} />;
         })}
