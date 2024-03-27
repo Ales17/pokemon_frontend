@@ -15,7 +15,7 @@ export default async function RootLayout({
     <html lang="cs">
       <body className="flex flex-col md:px-[10vw] bg-sky-100">
         <div className="min-h-screen bg-white p-2 md:p-6 ">
-          <div className="flex flex-col gap-2 md:flex-row md:justify-between md:mb-2">
+          <div className="flex flex-col gap-2 mb-4 md:flex-row md:justify-between ">
             <Navigation items={navItems} />
             <UserPanel />
           </div>
