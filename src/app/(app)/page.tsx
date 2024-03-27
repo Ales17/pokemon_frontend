@@ -6,17 +6,19 @@ import PokemonTable from "../components/PokemonTable";
 
 export default function Page() {
   const [pokemons, setPokemons] = useState<PokemonProps[] | null>();
-
+  const [isDomLoaded, setIsDomLoaded] = useState<boolean>(true);
   // empty argument - only on first render
+
   useEffect(() => {
     loadDataFromApi();
+    setIsDomLoaded(true);
   }, []);
 
   const loadDataFromApi = () => {
     instance
       .get("pokemon")
       .then((response) => {
-        setPokemons(response.data.content);
+        if (response.status == 200) setPokemons(response.data.content);
       })
       .catch((error) => {
         console.log(error);
@@ -35,13 +37,13 @@ export default function Page() {
   };
 
   return (
-    <>
-      {pokemons && (
+    <div>
+      {isDomLoaded && pokemons && (
         <PokemonTable
           deleteFunction={(id: Number) => handlePokemonDelete(id)}
           pokemons={pokemons}
         />
       )}
-    </>
+    </div>
   );
 }
