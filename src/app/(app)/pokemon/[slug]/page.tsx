@@ -65,7 +65,7 @@ export default function Page() {
   const Pokemon = ({ pokemon }: { pokemon: PokemonProps }) => {
     return (
       <div className="flex flex-col gap-2 md:flex-row md:justify-around">
-        <div className="w-2/3 flex flex-col gap-8">
+        <div className="flex flex-col gap-8 md:w-2/3">
           <div>
             <h2 className="text-2xl ">{pokemon.name}</h2>
             {pokemon.type}
@@ -83,8 +83,8 @@ export default function Page() {
           </div>
         </div>
         <img
-          className="rounded w-1/3"
-          src="https://picsum.photos/300"
+          className="rounded md:w-1/3"
+          src="https://picsum.photos/250"
           alt={pokemon.name}
         />
       </div>
