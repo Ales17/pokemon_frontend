@@ -55,7 +55,7 @@ export default function Page() {
                 type="text"
                 autoComplete="username"
                 required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full border-0 border-b border-blue-500 w-full py-2 px-3 text-gray-700"
                 onChange={(e: any) =>
                   setInputs({ ...inputs, username: e.target.value })
                 }
@@ -72,14 +72,6 @@ export default function Page() {
               >
                 Heslo
               </label>
-              {/*   <div className="text-sm">
-                <a
-                  href="#"
-                  className="font-semibold text-indigo-600 hover:text-indigo-500"
-                >
-                  Forgot password?
-                </a>
-              </div> */}
             </div>
             <div className="mt-2">
               <input
@@ -88,7 +80,7 @@ export default function Page() {
                 type="password"
                 autoComplete="current-password"
                 required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full border-0 border-b border-blue-500 w-full py-2 px-3 text-gray-700"
                 onChange={(e: any) =>
                   setInputs({ ...inputs, password: e.target.value })
                 }
