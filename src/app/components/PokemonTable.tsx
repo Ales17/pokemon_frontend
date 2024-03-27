@@ -50,7 +50,10 @@ function PokemonRow({
       <td className={tdClass}>{pokemon.type}</td>
       <td className={tdClass + " flex gap-2 justify-center"}>
         <PokemonTableButton href={`/pokemon/${pokemon.id}`} name={"Detail"} />
-        <PokemonTableButton href={`/pokemon/${pokemon.id}/edit`} name={"Upravit"} />
+        <PokemonTableButton
+          href={`/pokemon/${pokemon.id}/edit`}
+          name={"Upravit"}
+        />
         <PokemonTableButton
           onClick={() => deleteFunction(pokemon.id)}
           name="Vymazat"
@@ -71,25 +74,27 @@ export default function PokemonTable({
   const cellClassName = "p-3";
   const trClassName = "p-3 border-b border-blue-500 hover:bg-sky-100";
   return (
-    <table className="w-full table-auto ">
-      <thead>
-        <tr className={"p-3 border-b border-blue-500"}>
-          <th className={cellClassName}>Jméno</th>
-          <th className={cellClassName}>Druh</th>
-          <th className={cellClassName}>Operace</th>
-        </tr>
-      </thead>
-      <tbody>
-        {pokemons.map((e) => (
-          <PokemonRow
-            deleteFunction={deleteFunction}
-            tdClass={cellClassName}
-            trClass={trClassName}
-            key={e.id}
-            pokemon={e}
-          />
-        ))}
-      </tbody>
-    </table>
+    <div className="overflow-x-auto">
+      <table className="w-full table-auto ">
+        <thead>
+          <tr className={"p-3 border-b border-blue-500"}>
+            <th className={cellClassName}>Jméno</th>
+            <th className={cellClassName}>Druh</th>
+            <th className={cellClassName}>Operace</th>
+          </tr>
+        </thead>
+        <tbody>
+          {pokemons.map((e) => (
+            <PokemonRow
+              deleteFunction={deleteFunction}
+              tdClass={cellClassName}
+              trClass={trClassName}
+              key={e.id}
+              pokemon={e}
+            />
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
