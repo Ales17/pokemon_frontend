@@ -1,13 +1,16 @@
 import { ReviewProps } from "@/types";
 import { useState, FormEvent, useEffect } from "react";
 import instance from "@/config/axios";
+import { useRouter } from "next/navigation";
 interface ReviewFormProps {
   reviewToUpdate?: ReviewProps;
-  pokemonId: string | string[];
+  pokemonId?: string | string[];
 }
 const ReviewForm = ({ reviewToUpdate, pokemonId }: ReviewFormProps) => {
   const defaultReview = { id: 0, title: "", content: "", stars: 0 };
   const [review, setReview] = useState(defaultReview);
+
+  const router = useRouter();
 
   useEffect(() => {
     if (reviewToUpdate) setReview(reviewToUpdate);
@@ -21,11 +24,19 @@ const ReviewForm = ({ reviewToUpdate, pokemonId }: ReviewFormProps) => {
         .then((response) => console.log(response))
         .catch((error) => console.log(error));
     } else {
-        // TODO new review
-     /*  instance
-        .post(`pokemon/${pokemonId}/reviews`, review)
-        .then((response) => console.log(response))
-        .catch((error) => console.log(error)); */
+      instance
+        .post(`pokemon/${pokemonId}/review`, review)
+        .then((response) => {
+          console.log(response);
+          if (response.status === 201) {
+            const reviewId = response.data.id;
+            // TODO redirect to review page (not ready) 
+            //router.push(`/pokemon/${pokemonId}/review/${reviewId}`);
+            // Redirect to the pokemon page
+            router.push(`/pokemon/${pokemonId}`)
+        }
+        })
+        .catch((error) => console.log(error));
     }
   };
 
@@ -60,6 +71,7 @@ const ReviewForm = ({ reviewToUpdate, pokemonId }: ReviewFormProps) => {
             onChange={(e) =>
               setReview({ ...review, stars: Number(e.target.value) })
             }
+            min={0}
             name="stars"
           />
         </div>
