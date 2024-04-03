@@ -19,6 +19,7 @@ export default function Page() {
           alert("Chyba při načítání Pokémonů");
         } else {
           setPokemon(response.data);
+          getReviews();
         }
       })
       .catch(function (error) {
@@ -39,7 +40,7 @@ export default function Page() {
       });
   };
 
-  const handleReviewDelete = (reviewId: Number) => {
+  const handleReviewDelete = (reviewId: number) => {
     instance
       .delete(`pokemon/${pokemon.id}/reviews/${reviewId}`)
       .then((response) => {
@@ -51,13 +52,37 @@ export default function Page() {
       });
   };
 
+  const PokemonReviews = ({ reviews }: { reviews: ReviewProps[] }) => {
+    return (
+      <>
+        <h2 className="text-xl">Recenze Pokémona</h2>
+        {reviews.map((e, index) => (
+          <PokemonReview key={index} review={e} />
+        ))}
+      </>
+    );
+  };
+
   const PokemonReview = ({ review }: { review: ReviewProps }) => {
     return (
       <div>
-        <h2>{review.title}</h2>
+        <h2 className="text-2xl">{review.title}</h2>
         <div>{review.content}</div>
         <div>Hvězdičky {review.stars}</div>
-        <button onClick={(e) => handleReviewDelete(review.id)}>Vymazat</button>
+        <div className="flex">
+          <button
+            className="flex bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => handleReviewDelete(review.id)}
+          >
+            Vymazat
+          </button>
+          <Link
+            href={`/pokemon/${slug}/reviews/${review.id}/edit`}
+            className="flex bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Upravit
+          </Link>
+        </div>
       </div>
     );
   };
@@ -76,7 +101,7 @@ export default function Page() {
           </div>
           <div>
             <Link href={"/pokemon/" + slug + "/edit"}>
-              <button className="flex bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+              <button className="flex bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Upravit
               </button>
             </Link>
@@ -94,8 +119,7 @@ export default function Page() {
   return (
     <>
       {pokemon && <Pokemon pokemon={pokemon} />}
-      {reviews &&
-        reviews.map((e, index) => <PokemonReview key={index} review={e} />)}
+      {reviews && <PokemonReviews reviews={reviews} />}
     </>
   );
 }

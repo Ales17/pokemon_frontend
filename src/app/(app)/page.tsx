@@ -25,7 +25,7 @@ export default function Page() {
       });
   };
 
-  const handlePokemonDelete = (pokemonId: Number) => {
+  const handlePokemonDelete = (pokemonId: number) => {
     instance
       .delete(`pokemon/${pokemonId}/delete`)
       .then((response) => {
@@ -36,13 +36,19 @@ export default function Page() {
       .catch((error) => console.log(error));
   };
 
+  const LoadingMessage = ({ message }: { message: String }) => {
+    return <div className="text-2xl">{message}</div>;
+  };
+
   return (
     <div>
-      {isDomLoaded && pokemons && (
+      {pokemons ? (
         <PokemonTable
-          deleteFunction={(id: Number) => handlePokemonDelete(id)}
+          deleteFunction={(id: number) => handlePokemonDelete(id)}
           pokemons={pokemons}
         />
+      ) : (
+        <LoadingMessage message={"Načítám Pokémony..."} />
       )}
     </div>
   );

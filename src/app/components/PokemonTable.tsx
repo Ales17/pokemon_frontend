@@ -42,7 +42,7 @@ function PokemonRow({
   pokemon: PokemonProps;
   tdClass: string;
   trClass: string;
-  deleteFunction: (id: Number) => void;
+  deleteFunction: (id: number) => void;
 }) {
   return (
     <tr className={trClass}>
@@ -69,7 +69,7 @@ export default function PokemonTable({
   deleteFunction,
 }: {
   pokemons: PokemonProps[];
-  deleteFunction: (id: Number) => void;
+  deleteFunction: (id: number) => void;
 }) {
   const cellClassName = "p-3";
   const trClassName = "p-3 border-b border-blue-500 hover:bg-sky-100";

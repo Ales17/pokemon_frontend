@@ -22,7 +22,7 @@ export interface PokemonFormProps {
 }
 
 export interface ReviewProps {
-  id: Number;
+  id: number;
   title: string;
   content: string;
   stars: any;
