@@ -54,12 +54,12 @@ export default function Page() {
 
   const PokemonReviews = ({ reviews }: { reviews: ReviewProps[] }) => {
     return (
-      <>
+      <div>
         <h2 className="text-xl">Recenze Pokémona</h2>
         {reviews.map((e, index) => (
           <PokemonReview key={index} review={e} />
         ))}
-      </>
+      </div>
     );
   };
 
@@ -69,7 +69,7 @@ export default function Page() {
         <h2 className="text-2xl">{review.title}</h2>
         <div>{review.content}</div>
         <div>Hvězdičky {review.stars}</div>
-        <div className="flex">
+        <div className="flex gap-2">
           <button
             className="flex bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             onClick={() => handleReviewDelete(review.id)}
@@ -99,10 +99,15 @@ export default function Page() {
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia
             architecto nisi qui. Exercitationem cupiditate ducimus dicta vitae.{" "}
           </div>
-          <div>
+          <div className="flex gap-2">
             <Link href={"/pokemon/" + slug + "/edit"}>
               <button className="flex bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Upravit
+              </button>
+            </Link>
+            <Link href={"/pokemon/" + slug + "/reviews/create"}>
+              <button className="flex bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Hodnotit
               </button>
             </Link>
           </div>
