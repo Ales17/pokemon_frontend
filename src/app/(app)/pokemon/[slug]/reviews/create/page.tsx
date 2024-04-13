@@ -8,7 +8,6 @@ const Page = () => {
 
   return (
     <>
-      <h2 className="text-2xl">Hodnotit Pokémona</h2>
       <ReviewForm pokemonId={slug} />
     </>
   );

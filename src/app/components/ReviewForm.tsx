@@ -30,49 +30,66 @@ const ReviewForm = ({ reviewToUpdate, pokemonId }: ReviewFormProps) => {
           console.log(response);
           if (response.status === 201) {
             const reviewId = response.data.id;
-            // TODO redirect to review page (not ready) 
+            // TODO redirect to review page (not ready)
             //router.push(`/pokemon/${pokemonId}/review/${reviewId}`);
             // Redirect to the pokemon page
-            router.push(`/pokemon/${pokemonId}`)
-        }
+            router.push(`/pokemon/${pokemonId}`);
+          }
         })
         .catch((error) => console.log(error));
     }
   };
 
+  const inputClass =
+    "border-0 border-b border-blue-500 w-full py-2 px-3 text-gray-700";
+
+  const labelClass = "block text-gray-700 text-sm font-bold mb-2";
+
   return (
     <>
       <form onSubmit={(e) => handleReviewForm(e)}>
-        <div>
-          <label htmlFor="title">Titulek</label>
+        <div className="mb-4">
+          <label className={labelClass} htmlFor="title">
+            Titulek
+          </label>
           <input
+            className={inputClass}
             onChange={(e) => setReview({ ...review, title: e.target.value })}
             type="text"
             name="title"
             value={review.title}
+            required
           />
         </div>
 
-        <div>
-          <label htmlFor="content">Obsah</label>
+        <div className="mb-4">
+          <label className={labelClass} htmlFor="content">
+            Obsah
+          </label>
           <input
+            className={inputClass}
             onChange={(e) => setReview({ ...review, content: e.target.value })}
             type="text"
             name="content"
             value={review.content}
+            required
           />
         </div>
-
-        <div>
-          <label htmlFor="stars">Hodnocení</label>
+        <div className="mb-4">
+          <label className={labelClass} htmlFor="stars">
+            Hodnocení
+          </label>
           <input
+            className={inputClass}
             type="number"
             value={review.stars}
             onChange={(e) =>
               setReview({ ...review, stars: Number(e.target.value) })
             }
             min={0}
+            max={10}
             name="stars"
+            required
           />
         </div>
 
