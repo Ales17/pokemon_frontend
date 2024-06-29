@@ -1,6 +1,7 @@
 "use client";
 import { deleteCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import { Button } from "react-bootstrap";
 export const UserPanel = () => {
   const router = useRouter();
   const handleLogout = () => {
@@ -8,13 +9,5 @@ export const UserPanel = () => {
     router.push("/login");
   };
 
-  return (
-    <button
-      className="block bg-blue-500 hover:bg-blue-700 
-      text-white font-bold py-2 px-4 rounded"
-      onClick={(e) => handleLogout()}
-    >
-      Odhlásit
-    </button>
-  );
+  return <Button onClick={(e) => handleLogout()}>Odhlásit</Button>;
 };
