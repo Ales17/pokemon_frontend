@@ -3,41 +3,42 @@ import { useParams } from "next/navigation";
 import instance from "@/config/axios";
 import { useEffect, useState } from "react";
 import { ReviewProps, PokemonProps } from "@/types";
+import { Row, Col, Button, Card, Stack, Alert } from "react-bootstrap";
 import Link from "next/link";
-const defaultPokemon = { id: 0, name: "", type: "" };
+const defaultPokemon = { id: -999, name: "", type: "" };
 
 export default function Page() {
   let [pokemon, setPokemon] = useState(defaultPokemon);
   let [reviews, setReviews] = useState<ReviewProps[]>();
+  let [error, setError] = useState(false);
   const { slug } = useParams();
 
   useEffect(() => {
     instance
       .get(`pokemon/${slug}`, {})
       .then(function (response) {
-        if (response.status != 200) {
-          alert("Chyba při načítání Pokémonů");
-        } else {
-          setPokemon(response.data);
-          getReviews();
-        }
+        console.log(response.status);
+        setPokemon(response.data);
+        getReviews();
       })
       .catch(function (error) {
-        console.log(error);
+        setError(true);
       });
   }, []);
 
   const getReviews = () => {
-    instance
-      .get(`pokemon/${slug}/reviews`)
-      .then((response) => {
-        console.log(response.data);
+    if (pokemon) {
+      instance
+        .get(`pokemon/${slug}/reviews`)
+        .then((response) => {
+          console.log(response.data);
 
-        setReviews(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+          setReviews(response.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   };
 
   const handleReviewDelete = (reviewId: number) => {
@@ -55,76 +56,74 @@ export default function Page() {
   const PokemonReviews = ({ reviews }: { reviews: ReviewProps[] }) => {
     return (
       <div>
-        <h2 className="text-xl">Recenze Pokémona</h2>
-        {reviews.map((e, index) => (
-          <PokemonReview key={index} review={e} />
-        ))}
+        <h2>Recenze Pokémona</h2>
+        <Row>
+          {reviews.map((e, index) => (
+            <PokemonReview key={index} review={e} />
+          ))}
+        </Row>
       </div>
     );
   };
 
   const PokemonReview = ({ review }: { review: ReviewProps }) => {
     return (
-      <div>
-        <h2 className="text-2xl">{review.title}</h2>
-        <div>{review.content}</div>
-        <div>Hvězdičky {review.stars}</div>
-        <div className="flex gap-2">
-          <button
-            className="flex bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => handleReviewDelete(review.id)}
-          >
-            Vymazat
-          </button>
-          <Link
-            href={`/pokemon/${slug}/reviews/${review.id}/edit`}
-            className="flex bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Upravit
-          </Link>
-        </div>
-      </div>
+      <Col lg={4}>
+        <Card style={{ width: "100%" }}>
+          <Card.Body>
+            <Card.Title>{review.title}</Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">
+              <span title="Hodnocení (počet hvězdiček)">
+                &#9733; {review.stars}
+              </span>
+            </Card.Subtitle>
+            <Card.Text>{review.content}</Card.Text>
+
+            <Stack direction="horizontal" gap={2}>
+              <Button onClick={() => handleReviewDelete(review.id)}>
+                Vymazat
+              </Button>
+              <Button href={`/pokemon/${slug}/reviews/${review.id}/edit`}>
+                Upravit
+              </Button>
+            </Stack>
+          </Card.Body>
+        </Card>
+      </Col>
     );
   };
 
-  const Pokemon = ({ pokemon }: { pokemon: PokemonProps }) => {
+  const PokemonDetail = ({ pokemon }: { pokemon: PokemonProps }) => {
     return (
-      <div className="flex flex-col gap-2 md:flex-row md:justify-around">
-        <div className="flex flex-col gap-8 md:w-2/3">
-          <div>
-            <h2 className="text-2xl ">{pokemon.name}</h2>
-            {pokemon.type}
-          </div>
-          <div>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia
-            architecto nisi qui. Exercitationem cupiditate ducimus dicta vitae.{" "}
-          </div>
-          <div className="flex gap-2">
-            <Link href={"/pokemon/" + slug + "/edit"}>
-              <button className="flex bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Upravit
-              </button>
-            </Link>
-            <Link href={"/pokemon/" + slug + "/reviews/create"}>
-              <button className="flex bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Hodnotit
-              </button>
-            </Link>
-          </div>
-        </div>
-        <img
-          className="rounded md:w-1/3"
-          src="https://picsum.photos/250"
-          alt={pokemon.name}
-        />
-      </div>
+      <Row>
+        <Col lg={6}>
+          <Stack gap={3}>
+            <div>
+              <h2>{pokemon.name}</h2>
+              {pokemon.type}
+            </div>
+            <Stack gap={2} direction="horizontal">
+              <Link href={"/pokemon/" + slug + "/edit"}>
+                <Button>Upravit</Button>
+              </Link>
+              <Link href={"/pokemon/" + slug + "/reviews/create"}>
+                <Button>Hodnotit</Button>
+              </Link>
+            </Stack>
+          </Stack>
+        </Col>
+        <Col className="d-flex justify-content-center" lg={6}>
+          <img src="https://picsum.photos/400/300" alt={pokemon.name} />
+        </Col>
+      </Row>
     );
   };
 
   return (
     <>
-      {pokemon && <Pokemon pokemon={pokemon} />}
-      {reviews && <PokemonReviews reviews={reviews} />}
+      {error && <Alert variant="danger">Pokémon nenalezen</Alert>}
+      {pokemon.id != -999 && <PokemonDetail pokemon={pokemon} />}
+      {pokemon.id != -999 && reviews && <PokemonReviews reviews={reviews} />}
     </>
   );
 }
