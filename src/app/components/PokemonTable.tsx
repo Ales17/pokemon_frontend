@@ -1,7 +1,7 @@
-"use client"
+"use client";
 import Link from "next/link";
 import { PokemonProps } from "@/types";
-
+import { Table, Button, Stack } from "react-bootstrap";
 function PokemonTableButton({
   href,
   name,
@@ -36,30 +36,25 @@ function PokemonTableButton({
 
 function PokemonRow({
   pokemon,
-  tdClass,
-  trClass,
   deleteFunction,
 }: {
   pokemon: PokemonProps;
-  tdClass: string;
-  trClass: string;
   deleteFunction: (id: number) => void;
 }) {
   return (
-    <tr className={trClass}>
-      <td className={tdClass}>{pokemon.name}</td>
-      <td className={tdClass}>{pokemon.type}</td>
-      <td className={tdClass + " flex gap-2 justify-center"}>
-        <PokemonTableButton href={`/pokemon/${pokemon.id}`} name={"Detail"} />
-        <PokemonTableButton
-          href={`/pokemon/${pokemon.id}/edit`}
-          name={"Upravit"}
-        />
-        <PokemonTableButton
-          onClick={() => deleteFunction(pokemon.id)}
-          name="Vymazat"
-          colorClass="bg-red-500 hover:bg-red-700 "
-        />
+    <tr>
+      <td>{pokemon.name}</td>
+      <td>{pokemon.type}</td>
+      <td>
+        <Stack direction="horizontal" gap={3}>
+          <Button href={`/pokemon/${pokemon.id}`}>Detail</Button>
+          <Button variant="warning" href={`/pokemon/${pokemon.id}/edit`}>
+            Upravit
+          </Button>
+          <Button variant="danger" onClick={() => deleteFunction(pokemon.id)}>
+            Vymazat
+          </Button>
+        </Stack>
       </td>
     </tr>
   );
@@ -72,30 +67,26 @@ export default function PokemonTable({
   pokemons: PokemonProps[];
   deleteFunction: (id: number) => void;
 }) {
-  const cellClassName = "p-3";
-  const trClassName = "p-3 border-b border-blue-500 hover:bg-sky-100";
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full table-auto ">
+    <div>
+      <Table striped className="pokemon-table">
         <thead>
-          <tr className={"p-3 border-b border-blue-500"}>
-            <th className={cellClassName}>Jméno</th>
-            <th className={cellClassName}>Druh</th>
-            <th className={cellClassName}>Operace</th>
+          <tr>
+            <th>Jméno</th>
+            <th>Druh</th>
+            <th>Operace</th>
           </tr>
         </thead>
         <tbody>
           {pokemons.map((e) => (
             <PokemonRow
               deleteFunction={deleteFunction}
-              tdClass={cellClassName}
-              trClass={trClassName}
               key={e.id}
               pokemon={e}
             />
           ))}
         </tbody>
-      </table>
+      </Table>
     </div>
   );
 }
