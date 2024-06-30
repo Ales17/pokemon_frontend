@@ -3,15 +3,13 @@ import { useEffect, useState } from "react";
 import instance from "../../config/axios";
 import { PokemonProps } from "@/types";
 import PokemonTable from "../components/PokemonTable";
-
+import { Alert } from "react-bootstrap";
 export default function Page() {
   const [pokemons, setPokemons] = useState<PokemonProps[] | null>();
-  const [isDomLoaded, setIsDomLoaded] = useState<boolean>(true);
-  // empty argument - only on first render
 
+  // empty argument - only on first render
   useEffect(() => {
     loadDataFromApi();
-    setIsDomLoaded(true);
   }, []);
 
   const loadDataFromApi = () => {
@@ -36,19 +34,16 @@ export default function Page() {
       .catch((error) => console.log(error));
   };
 
-  const LoadingMessage = ({ message }: { message: String }) => {
-    return <div className="text-2xl">{message}</div>;
-  };
-
   return (
     <div>
+      <h1>Seznam Pokémonů</h1>
       {pokemons ? (
         <PokemonTable
           deleteFunction={(id: number) => handlePokemonDelete(id)}
           pokemons={pokemons}
         />
       ) : (
-        <LoadingMessage message={"Načítám Pokémony..."} />
+        <Alert variant="primary">Načítám Pokemony</Alert>
       )}
     </div>
   );
