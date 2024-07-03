@@ -8,18 +8,19 @@ export default function RootLayout({
   return (
     <html lang="cs">
       <body>
-        <Navbar bg="dark" data-bs-theme="dark" className="mb-3">
+        <Navbar expand="lg" bg="dark" data-bs-theme="dark" className="mb-3">
           <Container>
-            <Navbar.Brand href="#home">Navbar</Navbar.Brand>
-            <Nav className="me-auto"> 
-              <Nav.Link href="/">Domů</Nav.Link>
-              <Nav.Link href="/pokemon/create">Nový záznam</Nav.Link>
-            </Nav>
-            <UserPanel />
+            <Navbar.Brand>Pokéweb</Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="me-auto">
+                <Nav.Link href="/">Domů</Nav.Link>
+                <Nav.Link href="/pokemon/create">Přidat Pokémona</Nav.Link>
+              </Nav>
+              <UserPanel />
+            </Navbar.Collapse>
           </Container>
         </Navbar>
-
-        
 
         <Container>{children}</Container>
       </body>
