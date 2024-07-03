@@ -1,9 +1,11 @@
 import { useEffect, useState, FormEvent } from "react";
 import instance from "@/config/axios";
+import { Form, Button, Alert } from "react-bootstrap";
 import { PokemonFormProps } from "@/types";
 import { useRouter } from "next/navigation";
 const PokemonForm = ({ pokemonToUpdate }: PokemonFormProps) => {
   const [pokemon, setPokemon] = useState({ id: "", name: "", type: "" });
+  const [error, setError] = useState(false);
   const router = useRouter();
   useEffect(() => {
     if (pokemonToUpdate) setPokemon(pokemonToUpdate);
@@ -25,7 +27,8 @@ const PokemonForm = ({ pokemonToUpdate }: PokemonFormProps) => {
           }
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
+          setError(true);
         });
     } else {
       instance
@@ -37,25 +40,19 @@ const PokemonForm = ({ pokemonToUpdate }: PokemonFormProps) => {
           }
         })
         .catch((error) => {
-          console.log(error);
+          setError(true);
+          //console.log(error);
         });
     }
   };
-  const inputClass =
-    "border-0 border-b border-blue-500 w-full py-2 px-3 text-gray-700";
-
-  const labelClass = "block text-gray-700 text-sm font-bold mb-2";
 
   return (
     <>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <div className="mb-4">
-          <label className={labelClass} htmlFor="name">
-            Jméno
-          </label>
-          <input
-            name="name"
-            className={inputClass}
+      {error && <Alert variant="danger">Chyba při uložení</Alert>}
+      <Form onSubmit={(e) => handleSubmit(e)}>
+        <Form.Group className="mb-3">
+          <Form.Label>Jméno</Form.Label>
+          <Form.Control
             type="text"
             onChange={(e) =>
               setPokemon({
@@ -65,13 +62,10 @@ const PokemonForm = ({ pokemonToUpdate }: PokemonFormProps) => {
             }
             value={pokemon.name}
           />
-        </div>
-        <div className="mb-6">
-          <label className={labelClass} htmlFor="name">
-            Druh
-          </label>
-          <input
-            className={inputClass}
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Druh</Form.Label>
+          <Form.Control
             type="text"
             onChange={(e) =>
               setPokemon({
@@ -81,15 +75,13 @@ const PokemonForm = ({ pokemonToUpdate }: PokemonFormProps) => {
             }
             value={pokemon.type}
           />
-        </div>
-        <div className="flex">
-          <input
-            type="submit"
-            value="Uložit"
-            className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          />
-        </div>
-      </form>
+        </Form.Group>
+        <Form.Group>
+          <Button type="submit" variant="primary">
+            Uložit
+          </Button>
+        </Form.Group>
+      </Form>
     </>
   );
 };
