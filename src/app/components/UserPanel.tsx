@@ -7,20 +7,21 @@ export const UserPanel = () => {
   const [username, setUsername] = useState("");
   const router = useRouter();
   const handleLogout = () => {
-    deleteCookie("auth")
+    deleteCookie("auth");
     router.push("/login");
   };
 
   useEffect(() => {
-    const cookieUserName = getCookie("u");
-    if (cookieUserName) setUsername(cookieUserName)
+    const cookie = getCookie("auth");
+    if (cookie) var u = JSON.parse(cookie).u;
+    setUsername(u);
   }, []);
 
   return (
-    <Stack direction="horizontal" gap={3}>
+    <Stack direction="horizontal" gap={3} className="d-flex justify-content-center">
       {username != "" && (
         <Navbar.Text>
-          Přihlášený uživatel: <span className="text-white">{username}</span>
+          <span className="text-white">{username}</span>
         </Navbar.Text>
       )}
       <Button onClick={(e) => handleLogout()}>Odhlásit</Button>
