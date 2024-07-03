@@ -2,39 +2,8 @@
 import Link from "next/link";
 import { PokemonProps } from "@/types";
 import { Table, Button, Stack } from "react-bootstrap";
-function PokemonTableButton({
-  href,
-  name,
-  onClick,
-  colorClass,
-}: {
-  href?: string;
-  name: string;
-  onClick?: () => void;
-  colorClass?: string;
-}) {
-  const additionalClass = colorClass
-    ? colorClass
-    : " bg-blue-500 hover:bg-blue-700 ";
-  const className =
-    additionalClass +
-    "text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline";
-  if (href) {
-    return (
-      <Link className={className} href={href}>
-        {name}
-      </Link>
-    );
-  } else if (onClick) {
-    return (
-      <button className={className} onClick={onClick}>
-        {name}
-      </button>
-    );
-  }
-}
 
-function PokemonRow({
+function PokemonTableRow({
   pokemon,
   deleteFunction,
 }: {
@@ -69,7 +38,7 @@ export default function PokemonTable({
 }) {
   return (
     <div>
-      <Table striped className="pokemon-table">
+      <Table responsive striped className="pokemon-table">
         <thead>
           <tr>
             <th>Jméno</th>
@@ -79,7 +48,7 @@ export default function PokemonTable({
         </thead>
         <tbody>
           {pokemons.map((e) => (
-            <PokemonRow
+            <PokemonTableRow
               deleteFunction={deleteFunction}
               key={e.id}
               pokemon={e}
