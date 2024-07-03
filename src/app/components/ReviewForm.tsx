@@ -1,6 +1,7 @@
 import { ReviewProps } from "@/types";
 import { useState, FormEvent, useEffect } from "react";
 import instance from "@/config/axios";
+import { Form, Button, Alert } from "react-bootstrap";
 import { useRouter } from "next/navigation";
 interface ReviewFormProps {
   reviewToUpdate?: ReviewProps;
@@ -40,47 +41,33 @@ const ReviewForm = ({ reviewToUpdate, pokemonId }: ReviewFormProps) => {
     }
   };
 
-  const inputClass =
-    "border-0 border-b border-blue-500 w-full py-2 px-3 text-gray-700";
-
-  const labelClass = "block text-gray-700 text-sm font-bold mb-2";
-
   return (
     <>
-      <form onSubmit={(e) => handleReviewForm(e)}>
-        <div className="mb-4">
-          <label className={labelClass} htmlFor="title">
-            Titulek
-          </label>
-          <input
-            className={inputClass}
+      <Form onSubmit={(e) => handleReviewForm(e)}>
+        <Form.Group className="mb-3">
+          <Form.Label>Titulek</Form.Label>
+          <Form.Control
             onChange={(e) => setReview({ ...review, title: e.target.value })}
             type="text"
             name="title"
             value={review.title}
             required
           />
-        </div>
+        </Form.Group>
 
-        <div className="mb-4">
-          <label className={labelClass} htmlFor="content">
-            Obsah
-          </label>
-          <input
-            className={inputClass}
+        <Form.Group className="mb-3">
+          <Form.Label>Obsah</Form.Label>
+          <Form.Control
             onChange={(e) => setReview({ ...review, content: e.target.value })}
             type="text"
             name="content"
             value={review.content}
             required
           />
-        </div>
-        <div className="mb-4">
-          <label className={labelClass} htmlFor="stars">
-            Hodnocení
-          </label>
-          <input
-            className={inputClass}
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Hodnocení</Form.Label>
+          <Form.Control
             type="number"
             value={review.stars}
             onChange={(e) =>
@@ -91,16 +78,14 @@ const ReviewForm = ({ reviewToUpdate, pokemonId }: ReviewFormProps) => {
             name="stars"
             required
           />
-        </div>
+        </Form.Group>
 
-        <div>
-          <input
-            type="submit"
-            value="Uložit"
-            className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          />
-        </div>
-      </form>
+        <Form.Group>
+          <Button type="submit" value="Uložit">
+            Uložit
+          </Button>
+        </Form.Group>
+      </Form>
     </>
   );
 };
