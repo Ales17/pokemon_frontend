@@ -7,16 +7,16 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    let tkn = null;
-    const authCookie = getCookie("auth");
+    let apiToken = null;
+    const authCookie = getCookie("session");
     if (authCookie) {
-      const jsonCookie = JSON.parse(authCookie);
-      tkn = jsonCookie.t;
+      const parsedCookie = JSON.parse(authCookie);
+      apiToken = parsedCookie.t;
     }
 
     //if (token) {
-    if (tkn) {
-      config.headers["Authorization"] = `Bearer ${tkn}`;
+    if (apiToken) {
+      config.headers["Authorization"] = `Bearer ${apiToken}`;
     }
     return config;
   },

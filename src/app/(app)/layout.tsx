@@ -1,27 +1,28 @@
-"use client";
+"use server";
 import "@/app/globals.css";
-import { Navbar, Container, Nav } from "react-bootstrap";
-import { UserPanel } from "../components/UserPanel";
-export default function RootLayout({
+import { Container } from "react-bootstrap";
+import { cookies } from "next/headers";
+import { Navigation } from "../components/Navigation";
+
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  let username = "USERNAME";
+  async function getUserName() {
+    const cookie = cookies().get("session")?.value;
+    if (cookie) {
+      const cookieJson = JSON.parse(cookie);
+      console.log(cookieJson)
+      return cookieJson.u;
+    }
+  }
+
+  username = await getUserName();
+
   return (
     <html lang="cs">
       <body>
-        <Navbar expand="lg" bg="dark" data-bs-theme="dark" className="mb-3">
-          <Container>
-            <Navbar.Brand>Pokéweb</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="me-auto">
-                <Nav.Link href="/">Domů</Nav.Link>
-                <Nav.Link href="/pokemon/create">Přidat Pokémona</Nav.Link>
-              </Nav>
-              <UserPanel />
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
-
+        <Navigation username={username} />
         <Container>{children}</Container>
       </body>
     </html>

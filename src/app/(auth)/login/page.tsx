@@ -4,12 +4,14 @@ import { FormEvent, useState } from "react";
 import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { Button, Form, Alert } from "react-bootstrap";
+
 export default function Page() {
   const [formData, setFormData] = useState({ username: "", password: "" });
-  const [error, setError] = useState(false);
+  const [error, setError] = useState({ status: false, msg: "" });
+
   const router = useRouter();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleForm = (e: React.FormEvent) => {
     e.preventDefault();
     instance
       .post("/auth/login", {
@@ -18,19 +20,24 @@ export default function Page() {
       })
       .then(function (response) {
         if (response.status == 200) {
-          const usr = {u: response.data.username, t: response.data.accessToken}
-          setCookie("auth", JSON.stringify(usr))
+          const apiLoginResponse = {
+            u: response.data.username,
+            t: response.data.accessToken,
+          };
+          setCookie("session", JSON.stringify(apiLoginResponse));
+          //handleLogin(apiLoginResponse);
+          // Client redirect to home, because server method side not working
           router.push("/");
         }
       })
       .catch(function (error) {
         console.log(error);
-        setError(true);
+        setError({ ...error, status: true, msg: "Chyba při přihlášení" });
       });
   };
 
   const ErrorMessage = ({ msg }: { msg?: string }) => {
-    return <Alert variant="danger">{ msg || "Chyba..."}</Alert>;
+    return <Alert variant="danger">{msg || "Chyba..."}</Alert>;
   };
 
   return (
@@ -38,16 +45,17 @@ export default function Page() {
       <div>
         <h2>Přihlášení</h2>
       </div>
-      {error && <ErrorMessage msg="Přihlášení se nezdařilo. Zkontroluje zadané údaje."/>}
+      {error.status && <ErrorMessage msg={error.msg} />}
       <div>
         <Form
           onSubmit={(e: FormEvent) => {
-            handleLogin(e);
+            handleForm(e);
           }}
         >
           <Form.Group className="mb-3">
             <Form.Label>Uživatelské jméno</Form.Label>
             <Form.Control
+              autoFocus
               type="text"
               id="username"
               name="username"

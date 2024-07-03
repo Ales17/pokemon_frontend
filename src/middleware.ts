@@ -1,18 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(request: NextRequest) {
-  const auth = request.cookies.get("auth")?.value;
+  const auth = request.cookies.get("session")?.value;
   if(auth) {
-    var tkn = JSON.parse(auth).t 
+    var cookieToken = JSON.parse(auth).t 
   } 
 
-  if (!tkn && !request.nextUrl.pathname.startsWith("/login")) {
+  if (!cookieToken && !request.nextUrl.pathname.startsWith("/login")) {
     return Response.redirect(new URL("/login", request.url));
   } /* else if (auth && request.nextUrl.pathname.startsWith("/logout")) {
     const response = NextResponse.next()
     response.cookies.delete("pika")
     return Response.redirect(new URL("/login", request.url));
   } */
+ 
 }
 
 export const config = {
