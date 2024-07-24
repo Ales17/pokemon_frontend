@@ -1,5 +1,10 @@
 import { Url } from "next/dist/shared/lib/router/router";
 
+export interface LoginInputs {
+  username: string;
+  password: string;
+}
+
 export interface PokemonProps {
   id: any;
   name: string;
@@ -26,4 +31,5 @@ export interface ReviewProps {
   title: string;
   content: string;
   stars: any;
+  createdBy: { id: number; username: string };
 }

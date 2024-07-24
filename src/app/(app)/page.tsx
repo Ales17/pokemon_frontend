@@ -4,24 +4,19 @@ import instance from "../../config/axios";
 import { PokemonProps } from "@/types";
 import PokemonTable from "../components/PokemonTable";
 import { Alert } from "react-bootstrap";
+import { getPokemons } from "../api/pokemonData";
+
 export default function Page() {
   const [pokemons, setPokemons] = useState<PokemonProps[] | null>();
 
-  // empty argument - only on first render
   useEffect(() => {
-    loadDataFromApi();
-  }, []);
+    const fetchPokemonsData = async () => {
+      const pokemonsData = await getPokemons();
+      setPokemons(pokemonsData.content);
+    };
 
-  const loadDataFromApi = () => {
-    instance
-      .get("pokemon")
-      .then((response) => {
-        if (response.status == 200) setPokemons(response.data.content);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+    fetchPokemonsData();
+  }, []);
 
   const handlePokemonDelete = (pokemonId: number) => {
     instance

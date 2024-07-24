@@ -1,8 +1,13 @@
 "use client";
 import { Navbar, Container, Nav, Button, Stack } from "react-bootstrap";
-import { handleLogout } from "../actions";
-export const Navigation = ({ username }: { username: String }) => {
-  
+import { handleLogout, isUserAdmin } from "../actions";
+export const Navigation = ({
+  username,
+  admin,
+}: {
+  username: String;
+  admin: boolean
+}) => {
   return (
     <Navbar expand="lg" bg="dark" data-bs-theme="dark" className="mb-3">
       <Container>
@@ -11,7 +16,9 @@ export const Navigation = ({ username }: { username: String }) => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="/">Domů</Nav.Link>
-            <Nav.Link href="/pokemon/create">Přidat Pokémona</Nav.Link>
+            {admin && (
+              <Nav.Link href="/pokemon/create">Přidat Pokémona</Nav.Link>
+            )}
           </Nav>
           <Stack
             direction="horizontal"

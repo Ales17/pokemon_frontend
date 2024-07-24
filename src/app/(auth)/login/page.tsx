@@ -3,8 +3,8 @@ import instance from "@/config/axios";
 import { FormEvent, useState } from "react";
 import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
-import { Button, Form, Alert } from "react-bootstrap";
-
+import { Button, Form } from "react-bootstrap";
+import ErrorMessage from "@/app/components/ErrorMessage";
 export default function Page() {
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [error, setError] = useState({ status: false, msg: "" });
@@ -13,20 +13,12 @@ export default function Page() {
 
   const handleForm = (e: React.FormEvent) => {
     e.preventDefault();
+    const url = "/auth/login";
     instance
-      .post("/auth/login", {
-        username: formData.username,
-        password: formData.password,
-      })
+      .post(url, formData)
       .then(function (response) {
         if (response.status == 200) {
-          const apiLoginResponse = {
-            u: response.data.username,
-            t: response.data.accessToken,
-          };
-          setCookie("session", JSON.stringify(apiLoginResponse));
-          //handleLogin(apiLoginResponse);
-          // Client redirect to home, because server method side not working
+          setCookie("session", response.data.accessToken);
           router.push("/");
         }
       })
@@ -34,10 +26,6 @@ export default function Page() {
         console.log(error);
         setError({ ...error, status: true, msg: "Chyba při přihlášení" });
       });
-  };
-
-  const ErrorMessage = ({ msg }: { msg?: string }) => {
-    return <Alert variant="danger">{msg || "Chyba..."}</Alert>;
   };
 
   return (

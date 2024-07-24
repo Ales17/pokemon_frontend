@@ -75,6 +75,9 @@ export default function Page() {
             <Card.Subtitle className="mb-2 text-muted">
               <span title="Hodnocení (počet hvězdiček)">
                 &#9733; {review.stars}
+              </span> <br></br>
+              <span title="Autor">
+                By {review.createdBy.username}
               </span>
             </Card.Subtitle>
             <Card.Text>{review.content}</Card.Text>
