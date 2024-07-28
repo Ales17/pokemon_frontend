@@ -1,7 +1,6 @@
 import { ReviewProps } from "@/types";
 import { useState, FormEvent, useEffect } from "react";
-import instance from "@/config/axios";
-import { Form, Button, Alert } from "react-bootstrap";
+import instance from "../axios";
 import { useRouter } from "next/navigation";
 interface ReviewFormProps {
   reviewToUpdate?: ReviewProps;
@@ -43,31 +42,31 @@ const ReviewForm = ({ reviewToUpdate, pokemonId }: ReviewFormProps) => {
 
   return (
     <>
-      <Form onSubmit={(e) => handleReviewForm(e)}>
-        <Form.Group className="mb-3">
-          <Form.Label>Titulek</Form.Label>
-          <Form.Control
+      <form onSubmit={(e) => handleReviewForm(e)}>
+        <div className="mb-3">
+          <div>Titulek</div>
+          <input
             onChange={(e) => setReview({ ...review, title: e.target.value })}
             type="text"
             name="title"
             value={review.title}
             required
           />
-        </Form.Group>
+        </div>
 
-        <Form.Group className="mb-3">
-          <Form.Label>Obsah</Form.Label>
-          <Form.Control
+        <div className="mb-3">
+          <div>Obsah</div>
+          <input
             onChange={(e) => setReview({ ...review, content: e.target.value })}
             type="text"
             name="content"
             value={review.content}
             required
           />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>Hodnocení</Form.Label>
-          <Form.Control
+        </div>
+        <div className="mb-3">
+          <div>Hodnocení</div>
+          <input
             type="number"
             value={review.stars}
             onChange={(e) =>
@@ -78,14 +77,14 @@ const ReviewForm = ({ reviewToUpdate, pokemonId }: ReviewFormProps) => {
             name="stars"
             required
           />
-        </Form.Group>
+        </div>
 
-        <Form.Group>
-          <Button type="submit" value="Uložit">
+        <div>
+          <button type="submit" value="Uložit">
             Uložit
-          </Button>
-        </Form.Group>
-      </Form>
+          </button>
+        </div>
+      </form>
     </>
   );
 };

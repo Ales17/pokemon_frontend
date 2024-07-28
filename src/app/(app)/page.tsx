@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import instance from "../../config/axios";
+import instance from "../axios";
 import { PokemonProps } from "@/types";
 import PokemonTable from "../components/PokemonTable";
 import { getPokemons } from "../api/pokemonData";

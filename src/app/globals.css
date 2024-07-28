@@ -3,3 +3,8 @@
 @tailwind utilities;
 
 .pokemon-table td {vertical-align: middle;}
+/* Active menu item color */
+.menu li > *:not(ul):not(.menu-title):not(details):focus{
+    @apply text-white;
+    @apply bg-slate-950/50
+  }

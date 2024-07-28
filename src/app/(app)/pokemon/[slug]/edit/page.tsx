@@ -1,7 +1,7 @@
 "use client";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
-import instance from "@/config/axios";
+import instance from "@/app/axios";
 import PokemonForm from "@/app/components/PokemonForm";
 export default function Page() {
   const { slug } = useParams();

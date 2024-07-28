@@ -1,21 +1,22 @@
 "use client";
-import instance from "@/config/axios";
-import { FormEvent, useState } from "react";
+import instance from "@/app/axios";
+import { useState } from "react";
 import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import { LoginInputs } from "@/types";
 import ErrorMessage from "@/app/components/ErrorMessage";
 export default function Page() {
-  const [formData, setFormData] = useState({ username: "", password: "" });
+  const [loginDto, setLoginDto] = useState({ username: "", password: "" });
   const [error, setError] = useState({ status: false, msg: "" });
 
   const router = useRouter();
 
-  const handleForm = (e: React.FormEvent) => {
+  const handleForm = (e: React.FormEvent, formData: LoginInputs) => {
     e.preventDefault();
     const url = "/auth/login";
     instance
       .post(url, formData)
-      .then(function (response) {
+      .then((response) => {
         if (response.status == 200) {
           setCookie("session", response.data.accessToken);
           router.push("/");
@@ -23,7 +24,7 @@ export default function Page() {
       })
       .catch(function (error) {
         console.log(error);
-        setError({ ...error, status: true, msg: "Chyba při přihlášení" });
+        setError({ status: true, msg: "Chyba při přihlášení" });
       });
   };
 
@@ -31,45 +32,51 @@ export default function Page() {
     <div className="relative flex flex-col justify-center h-screen overflow-hidden">
       <div className="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-lg">
         <h1 className="text-3xl font-semibold text-center text-purple-700">
-          DaisyUI
+          Pokémon App
         </h1>
+        {error.status && <ErrorMessage msg="Chyba při přihlásení"/>}
         <form className="space-y-4">
           <div>
             <label className="label">
-              <span className="text-base label-text">Email</span>
+              <span className="text-base label-text">Uživatelské jméno</span>
             </label>
             <input
               type="text"
               onChange={(e: any) =>
-                setFormData({ ...formData, username: e.target.value })
+                setLoginDto({ ...loginDto, username: e.target.value })
               }
-              value={formData.username}
-              placeholder="Username"
+              value={loginDto.username}
               className="w-full input input-bordered input-primary"
             />
           </div>
           <div>
             <label className="label">
-              <span className="text-base label-text">Password</span>
+              <span className="text-base label-text">Heslo</span>
             </label>
             <input
               type="password"
               onChange={(e: any) =>
-                setFormData({ ...formData, password: e.target.value })
+                setLoginDto({ ...loginDto, password: e.target.value })
               }
-              value={formData.password}
-              placeholder="Enter Password"
+              value={loginDto.password}
               className="w-full input input-bordered input-primary"
             />
           </div>
-         {/*  <a
+          {/*  <a
             href="#"
             className="text-xs text-gray-600 hover:underline hover:text-blue-600"
           >
             Forget Password?
           </a> */}
           <div>
-            <button onClick={handleForm} className="btn btn-primary">Login</button>
+            <button
+              onClick={(e) => {
+                handleForm(e, loginDto);
+              }}
+              className="btn btn-primary"
+            >
+              Přihlásit se
+            </button>
           </div>
         </form>
       </div>

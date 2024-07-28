@@ -1,6 +1,6 @@
 "use client";
 import { useParams } from "next/navigation";
-import instance from "@/config/axios";
+import instance from "@/app/axios";
 import { useEffect, useState } from "react";
 import ReviewForm from "@/app/components/ReviewForm";
 import { ReviewProps } from "@/types";

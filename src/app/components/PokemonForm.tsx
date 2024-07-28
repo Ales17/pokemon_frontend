@@ -1,6 +1,5 @@
 import { useEffect, useState, FormEvent } from "react";
-import instance from "@/config/axios";
-import { Form, Button, Alert } from "react-bootstrap";
+import instance from "../axios";
 import { PokemonFormProps } from "@/types";
 import { useRouter } from "next/navigation";
 const PokemonForm = ({ pokemonToUpdate }: PokemonFormProps) => {
@@ -48,11 +47,11 @@ const PokemonForm = ({ pokemonToUpdate }: PokemonFormProps) => {
 
   return (
     <>
-      {error && <Alert variant="danger">Chyba při uložení</Alert>}
-      <Form onSubmit={(e) => handleSubmit(e)}>
-        <Form.Group className="mb-3">
-          <Form.Label>Jméno</Form.Label>
-          <Form.Control
+      {error && <div>Chyba při uložení</div>}
+      <form onSubmit={(e) => handleSubmit(e)}>
+        <div className="mb-3">
+          <label>Jméno</label>
+          <input
             type="text"
             onChange={(e) =>
               setPokemon({
@@ -62,10 +61,10 @@ const PokemonForm = ({ pokemonToUpdate }: PokemonFormProps) => {
             }
             value={pokemon.name}
           />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>Druh</Form.Label>
-          <Form.Control
+        </div>
+        <div className="mb-3">
+          <label>Druh</label>
+          <input
             type="text"
             onChange={(e) =>
               setPokemon({
@@ -75,13 +74,11 @@ const PokemonForm = ({ pokemonToUpdate }: PokemonFormProps) => {
             }
             value={pokemon.type}
           />
-        </Form.Group>
-        <Form.Group>
-          <Button type="submit" variant="primary">
-            Uložit
-          </Button>
-        </Form.Group>
-      </Form>
+        </div>
+        <div>
+          <button type="submit">Uložit</button>
+        </div>
+      </form>
     </>
   );
 };

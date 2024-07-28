@@ -13,10 +13,21 @@ function PokemonTableRow({
     <tr>
       <td>{pokemon.name}</td>
       <td>{pokemon.type}</td>
-      <td>
-        <a href={`/pokemon/${pokemon.id}`}>Detail</a>
-        <a href={`/pokemon/${pokemon.id}/edit`}>Upravit</a>
-        <button onClick={() => deleteFunction(pokemon.id)}>Vymazat</button>
+      <td className="flex gap-2">
+        <Link href={`/pokemon/${pokemon.id}`}>
+          <button className="btn btn-sm btn-primary">Detail</button>
+        </Link>
+
+        <Link href={`/pokemon/${pokemon.id}/edit`}>
+          <button className="btn btn-sm btn-warning">Upravit</button>
+        </Link>
+
+        <button
+          className="btn btn-sm btn-error"
+          onClick={() => deleteFunction(pokemon.id)}
+        >
+          Vymazat
+        </button>
       </td>
     </tr>
   );
@@ -31,7 +42,7 @@ export default function PokemonTable({
 }) {
   return (
     <div>
-      <table className="pokemon-table">
+      <table className="pokemon-table table">
         <thead>
           <tr>
             <th>Jméno</th>

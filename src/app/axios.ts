@@ -7,9 +7,9 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    const authCookie = getCookie("session");
-    if (authCookie) {    
-      config.headers["Authorization"] = `Bearer ${authCookie}`;
+    const sessionCookie = getCookie("session");
+    if (sessionCookie) {    
+      config.headers["Authorization"] = `Bearer ${sessionCookie}`;
     }
     return config;
   },

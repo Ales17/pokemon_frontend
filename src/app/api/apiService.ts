@@ -1,4 +1,4 @@
-import instance from "@/config/axios";
+import instance from "@/app/axios";
 
 export const fetchPokemons = async () => {
   try {

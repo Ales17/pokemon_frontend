@@ -1,17 +1,10 @@
-"use server";
-import { logout } from "../lib";
+import { logout } from "../../lib";
 import { redirect } from "next/navigation";
-
-export const Navigation = ({
-  username,
-  admin,
-}: {
-  username: String;
-  admin: boolean;
-}) => {
+import Link from "next/link";
+export const Navigation = ({ username }: { username: String }) => {
   return (
     <>
-      <div className="navbar bg-base-100">
+      <div className="navbar bg-primary text-primary-content">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -32,49 +25,25 @@ export const Navigation = ({
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+              className="menu menu-sm dropdown-content bg-primary rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
               <li>
-                <a>Item 1</a>
+                <Link href={"/"}>Domů</Link>
               </li>
               <li>
-                <a>Parent</a>
-                <ul className="p-2">
-                  <li>
-                    <a>Submenu 1</a>
-                  </li>
-                  <li>
-                    <a>Submenu 2</a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <a>Item 3</a>
+                <Link href={"/pokemon/create"}>Nový Pokémon</Link>
               </li>
             </ul>
           </div>
-          <a className="btn btn-ghost text-xl">daisyUI</a>
+          <span className="text-xl">Pokémon App</span>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
             <li>
-              <a>Item 1</a>
+              <Link href={"/"}>Domů</Link>
             </li>
             <li>
-              <details>
-                <summary>Parent</summary>
-                <ul className="p-2">
-                  <li>
-                    <a>Submenu 1</a>
-                  </li>
-                  <li>
-                    <a>Submenu 2</a>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            <li>
-              <a>Item 3</a>
+              <Link href={"/pokemon/create"}>Nový Pokémon</Link>
             </li>
           </ul>
         </div>
@@ -86,6 +55,7 @@ export const Navigation = ({
               redirect("/");
             }}
           >
+            {username}
             <input
               className="btn btn-primary"
               type="submit"
