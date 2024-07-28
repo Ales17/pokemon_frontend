@@ -3,7 +3,6 @@ import { useParams } from "next/navigation";
 import instance from "@/config/axios";
 import { useEffect, useState } from "react";
 import { ReviewProps, PokemonProps } from "@/types";
-import { Row, Col, Button, Card, Stack, Alert } from "react-bootstrap";
 import Link from "next/link";
 const defaultPokemon = { id: -999, name: "", type: "" };
 
@@ -57,74 +56,50 @@ export default function Page() {
     return (
       <div>
         <h2>Recenze Pokémona</h2>
-        <Row>
+        <div>
           {reviews.map((e, index) => (
             <PokemonReview key={index} review={e} />
           ))}
-        </Row>
+        </div>
       </div>
     );
   };
 
   const PokemonReview = ({ review }: { review: ReviewProps }) => {
     return (
-      <Col lg={4}>
-        <Card style={{ width: "100%" }}>
-          <Card.Body>
-            <Card.Title>{review.title}</Card.Title>
-            <Card.Subtitle className="mb-2 text-muted">
-              <span title="Hodnocení (počet hvězdiček)">
-                &#9733; {review.stars}
-              </span> <br></br>
-              <span title="Autor">
-                By {review.createdBy.username}
-              </span>
-            </Card.Subtitle>
-            <Card.Text>{review.content}</Card.Text>
-
-            <Stack direction="horizontal" gap={2}>
-              <Button onClick={() => handleReviewDelete(review.id)}>
-                Vymazat
-              </Button>
-              <Button href={`/pokemon/${slug}/reviews/${review.id}/edit`}>
-                Upravit
-              </Button>
-            </Stack>
-          </Card.Body>
-        </Card>
-      </Col>
+      <>
+        {review.title}
+        <span title="Hodnocení (počet hvězdiček)">&#9733; {review.stars}</span>
+        <span title="Autor">By {review.createdBy.username}</span>
+        {review.content}
+        <button onClick={() => handleReviewDelete(review.id)}>Vymazat</button>
+        <a href={`/pokemon/${slug}/reviews/${review.id}/edit`}>Upravit</a>
+      </>
     );
   };
 
   const PokemonDetail = ({ pokemon }: { pokemon: PokemonProps }) => {
     return (
-      <Row>
-        <Col lg={6}>
-          <Stack gap={3}>
-            <div>
-              <h2>{pokemon.name}</h2>
-              {pokemon.type}
-            </div>
-            <Stack gap={2} direction="horizontal">
-              <Link href={"/pokemon/" + slug + "/edit"}>
-                <Button>Upravit</Button>
-              </Link>
-              <Link href={"/pokemon/" + slug + "/reviews/create"}>
-                <Button>Hodnotit</Button>
-              </Link>
-            </Stack>
-          </Stack>
-        </Col>
-        <Col className="d-flex justify-content-center" lg={6}>
-          <img src="https://picsum.photos/400/300" alt={pokemon.name} />
-        </Col>
-      </Row>
+      <>
+        {" "}
+        <div>
+          <h2>{pokemon.name}</h2>
+          {pokemon.type}
+        </div>
+        <Link href={"/pokemon/" + slug + "/edit"}>
+          <button>Upravit</button>
+        </Link>
+        <Link href={"/pokemon/" + slug + "/reviews/create"}>
+          <button>Hodnotit</button>
+        </Link>
+        <img src="https://picsum.photos/400/300" alt={pokemon.name} />
+      </>
     );
   };
 
   return (
     <>
-      {error && <Alert variant="danger">Pokémon nenalezen</Alert>}
+      {error && <div>Pokémon nenalezen</div>}
       {pokemon.id != -999 && <PokemonDetail pokemon={pokemon} />}
       {pokemon.id != -999 && reviews && <PokemonReviews reviews={reviews} />}
     </>
