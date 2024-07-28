@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import { PokemonProps } from "@/types";
-import { Table, Button, Stack } from "react-bootstrap";
 
 function PokemonTableRow({
   pokemon,
@@ -15,15 +14,9 @@ function PokemonTableRow({
       <td>{pokemon.name}</td>
       <td>{pokemon.type}</td>
       <td>
-        <Stack direction="horizontal" gap={3}>
-          <Button href={`/pokemon/${pokemon.id}`}>Detail</Button>
-          <Button variant="warning" href={`/pokemon/${pokemon.id}/edit`}>
-            Upravit
-          </Button>
-          <Button variant="danger" onClick={() => deleteFunction(pokemon.id)}>
-            Vymazat
-          </Button>
-        </Stack>
+        <a href={`/pokemon/${pokemon.id}`}>Detail</a>
+        <a href={`/pokemon/${pokemon.id}/edit`}>Upravit</a>
+        <button onClick={() => deleteFunction(pokemon.id)}>Vymazat</button>
       </td>
     </tr>
   );
@@ -38,7 +31,7 @@ export default function PokemonTable({
 }) {
   return (
     <div>
-      <Table responsive striped className="pokemon-table">
+      <table className="pokemon-table">
         <thead>
           <tr>
             <th>Jméno</th>
@@ -55,7 +48,7 @@ export default function PokemonTable({
             />
           ))}
         </tbody>
-      </Table>
+      </table>
     </div>
   );
 }

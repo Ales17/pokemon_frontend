@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import instance from "../../config/axios";
 import { PokemonProps } from "@/types";
 import PokemonTable from "../components/PokemonTable";
-import { Alert } from "react-bootstrap";
 import { getPokemons } from "../api/pokemonData";
 
 export default function Page() {
@@ -38,7 +37,7 @@ export default function Page() {
           pokemons={pokemons}
         />
       ) : (
-        <Alert variant="primary">Načítám Pokemony</Alert>
+        <div>Načítám Pokemony</div>
       )}
     </div>
   );

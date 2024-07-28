@@ -1,6 +1,5 @@
 "use server";
 import "@/app/globals.css";
-import { Container } from "react-bootstrap";
 import {  getSessionRoles, getSessionUsername, isUserAdmin } from "../actions";
 import { Navigation } from "../components/Navigation";
 
@@ -14,7 +13,7 @@ export default async function RootLayout({
     <html lang="cs">
       <body>
         <Navigation username={username || "..."} admin={admin}/>
-        <Container>{children}</Container>
+        <>{children}</>
       </body>
     </html>
   );
