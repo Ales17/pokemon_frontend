@@ -3,7 +3,6 @@ import instance from "@/config/axios";
 import { FormEvent, useState } from "react";
 import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
-import { Button, Form } from "react-bootstrap";
 import ErrorMessage from "@/app/components/ErrorMessage";
 export default function Page() {
   const [formData, setFormData] = useState({ username: "", password: "" });
@@ -29,52 +28,50 @@ export default function Page() {
   };
 
   return (
-    <div>
-      <div>
-        <h2>Přihlášení</h2>
-      </div>
-      {error.status && <ErrorMessage msg={error.msg} />}
-      <div>
-        <Form
-          onSubmit={(e: FormEvent) => {
-            handleForm(e);
-          }}
-        >
-          <Form.Group className="mb-3">
-            <Form.Label>Uživatelské jméno</Form.Label>
-            <Form.Control
-              autoFocus
+    <div className="relative flex flex-col justify-center h-screen overflow-hidden">
+      <div className="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-lg">
+        <h1 className="text-3xl font-semibold text-center text-purple-700">
+          DaisyUI
+        </h1>
+        <form className="space-y-4">
+          <div>
+            <label className="label">
+              <span className="text-base label-text">Email</span>
+            </label>
+            <input
               type="text"
-              id="username"
-              name="username"
-              autoComplete="username"
               onChange={(e: any) =>
                 setFormData({ ...formData, username: e.target.value })
               }
               value={formData.username}
-              required
-            ></Form.Control>
-          </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label>Heslo</Form.Label>
-            <Form.Control
+              placeholder="Username"
+              className="w-full input input-bordered input-primary"
+            />
+          </div>
+          <div>
+            <label className="label">
+              <span className="text-base label-text">Password</span>
+            </label>
+            <input
               type="password"
-              name="password"
               onChange={(e: any) =>
                 setFormData({ ...formData, password: e.target.value })
               }
               value={formData.password}
-              required
-            ></Form.Control>
-          </Form.Group>
-
-          <div>
-            <Button variant="primary" type="submit">
-              Přihlásit se
-            </Button>
+              placeholder="Enter Password"
+              className="w-full input input-bordered input-primary"
+            />
           </div>
-        </Form>
+         {/*  <a
+            href="#"
+            className="text-xs text-gray-600 hover:underline hover:text-blue-600"
+          >
+            Forget Password?
+          </a> */}
+          <div>
+            <button onClick={handleForm} className="btn btn-primary">Login</button>
+          </div>
+        </form>
       </div>
     </div>
   );

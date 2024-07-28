@@ -1,37 +1,99 @@
-"use client";
-import { Navbar, Container, Nav, Button, Stack } from "react-bootstrap";
-import { handleLogout, isUserAdmin } from "../actions";
+"use server";
+import { logout } from "../lib";
+import { redirect } from "next/navigation";
+
 export const Navigation = ({
   username,
   admin,
 }: {
   username: String;
-  admin: boolean
+  admin: boolean;
 }) => {
   return (
-    <Navbar expand="lg" bg="dark" data-bs-theme="dark" className="mb-3">
-      <Container>
-        <Navbar.Brand>Pokéweb</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="/">Domů</Nav.Link>
-            {admin && (
-              <Nav.Link href="/pokemon/create">Přidat Pokémona</Nav.Link>
-            )}
-          </Nav>
-          <Stack
-            direction="horizontal"
-            gap={3}
-            className="d-flex justify-content-center"
+    <>
+      <div className="navbar bg-base-100">
+        <div className="navbar-start">
+          <div className="dropdown">
+            <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h8m-8 6h16"
+                />
+              </svg>
+            </div>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+            >
+              <li>
+                <a>Item 1</a>
+              </li>
+              <li>
+                <a>Parent</a>
+                <ul className="p-2">
+                  <li>
+                    <a>Submenu 1</a>
+                  </li>
+                  <li>
+                    <a>Submenu 2</a>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <a>Item 3</a>
+              </li>
+            </ul>
+          </div>
+          <a className="btn btn-ghost text-xl">daisyUI</a>
+        </div>
+        <div className="navbar-center hidden lg:flex">
+          <ul className="menu menu-horizontal px-1">
+            <li>
+              <a>Item 1</a>
+            </li>
+            <li>
+              <details>
+                <summary>Parent</summary>
+                <ul className="p-2">
+                  <li>
+                    <a>Submenu 1</a>
+                  </li>
+                  <li>
+                    <a>Submenu 2</a>
+                  </li>
+                </ul>
+              </details>
+            </li>
+            <li>
+              <a>Item 3</a>
+            </li>
+          </ul>
+        </div>
+        <div className="navbar-end">
+          <form
+            action={async () => {
+              "use server";
+              await logout();
+              redirect("/");
+            }}
           >
-            <Navbar.Text>
-              <span className="text-white">{username}</span>
-            </Navbar.Text>
-            <Button onClick={() => handleLogout()}>Odhlásit</Button>
-          </Stack>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+            <input
+              className="btn btn-primary"
+              type="submit"
+              value={"Odhlásit"}
+            />
+          </form>
+        </div>
+      </div>
+    </>
   );
 };

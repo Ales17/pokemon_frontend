@@ -1,5 +1,5 @@
 import { Alert } from "react-bootstrap";
 const ErrorMessage = ({ msg }: { msg?: string }) => {
-  return <Alert variant="danger">{msg || "Chyba..."}</Alert>;
+  return <div>{msg || "Chyba..."}</div>;
 };
 export default ErrorMessage;
